@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
-using System;
+//using System;
 
 public class TextController : MonoBehaviour {
 
@@ -29,9 +29,20 @@ public class TextController : MonoBehaviour {
         else if (myState == States.lock_1)          {state_lock_1();}
         else if (myState == States.lock_2)          {state_lock_2();}
         else if (myState == States.cell_mirror)     {state_cell_mirror();}
-        else if (myState == States.corridor_0)      {state_corridor_0();}
-        else if (myState == States.end)             {state_end();}    
-    }
+        else if (myState == States.corridor_0)      {state_corridor_0();} // formally freedom
+        else if (myState == States.end)             {state_end();}
+        else if (myState == States.stairs_0)        {state_stairs_0();}
+        else if (myState == States.foor)            {state_floor():}
+        else if (myState == States.closet_door)     {state_closet_door();}
+        else if (myState == States.corridor_1)      {state_corridor_1();}
+        else if (myState == States.stairs_1)        {state_stairs_1();}
+        else if (myState == States.in_closet)       {state_in_closet();}
+        else if (myState == States.corridor_2)      {state_corridor_2();}
+        else if (myState == States.stairs_2)        {state_stairs_2();}
+        else if (myState == States.corridor_3)      {state_corridor_3();}
+        else if (myState == States.courtyard)       {state_courtyard();}
+
+        }
 
     void state_cell () { //Describing the cell
         text.text = "You are a prisoner on a maximum security space station. You stink of booze and regret. The Regret tastes like tequila. " +
@@ -96,11 +107,15 @@ public class TextController : MonoBehaviour {
 
     void state_lock_1(){ //lock with mirror - perhaps make random success? 
 
+        // Random success could be like (random bool?) -- if (try = 5) {gain access}
+        // OR could have have a random chance or success - like 20% chance of success - but after gain access?
+
         text.text = "You put the mirror through the bars of the cell and turn it to see the reflection of the numberpad. " +
                     "You can see the dirt on some of the numbers \n\n" +
                     "You press the numbers in no particular order. . . \n\n" +
                     "Press C to continue. ";
-        
+
+       
         if (Input.GetKeyDown(KeyCode.C)){
             myState = States.lock_2;
         }
