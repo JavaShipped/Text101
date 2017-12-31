@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
+using System;
 //using System;
 
 public class TextController : MonoBehaviour {
 
     public Text text;
-    enum States {cell, mirror, sheets_0, lock_0, sheets_1, lock_1, lock_2, cell_mirror, corridor_0, end};
+    enum States {cell, mirror, sheets_0, lock_0, sheets_1, lock_1, lock_2, cell_mirror, corridor_0, stairs_0, floor, closet_door, corridor_1, stairs_1, in_closet, corridor_2, stairs_2, corridor_3, courtyard, end};
     private States myState;
 
 
@@ -21,28 +22,109 @@ public class TextController : MonoBehaviour {
     void Update(){
         print(myState); // all of these states need an else ("invalid selection - do it again")
 
-        if (myState == States.cell)                 {state_cell();} // needs more keypress options
-        else if (myState == States.sheets_0)        {state_sheets_0();}
-        else if (myState == States.lock_0)          {state_lock_0();} // needs a try and fail scenario
-        else if (myState == States.mirror)          {state_mirror();}
-        else if (myState == States.sheets_1)        {state_sheets_1();}
-        else if (myState == States.lock_1)          {state_lock_1();}
-        else if (myState == States.lock_2)          {state_lock_2();}
-        else if (myState == States.cell_mirror)     {state_cell_mirror();}
-        else if (myState == States.corridor_0)      {state_corridor_0();} // formally freedom
-        else if (myState == States.end)             {state_end();}
-        else if (myState == States.stairs_0)        {state_stairs_0();}
-        else if (myState == States.foor)            {state_floor():}
-        else if (myState == States.closet_door)     {state_closet_door();}
-        else if (myState == States.corridor_1)      {state_corridor_1();}
-        else if (myState == States.stairs_1)        {state_stairs_1();}
-        else if (myState == States.in_closet)       {state_in_closet();}
-        else if (myState == States.corridor_2)      {state_corridor_2();}
-        else if (myState == States.stairs_2)        {state_stairs_2();}
-        else if (myState == States.corridor_3)      {state_corridor_3();}
-        else if (myState == States.courtyard)       {state_courtyard();}
+        if (myState == States.cell) { state_cell(); } // needs more keypress options
+        else if (myState == States.sheets_0) { state_sheets_0(); }
+        else if (myState == States.lock_0) { state_lock_0(); } // needs a try and fail scenario
+        else if (myState == States.mirror) { state_mirror(); }
+        else if (myState == States.sheets_1) { state_sheets_1(); }
+        else if (myState == States.lock_1) { state_lock_1(); }
+        else if (myState == States.lock_2) { state_lock_2(); }
+        else if (myState == States.cell_mirror) { state_cell_mirror(); }
+        else if (myState == States.corridor_0) { state_corridor_0(); } // formally freedom
+        else if (myState == States.end) { state_end(); }
+        
+        //corridor scene ===================================================\\
 
+        else if (myState == States.stairs_0)        {state_stairs_0();}
+        else if (myState == States.floor)           {state_floor();}
+        else if (myState == States.closet_door)     {state_closet_door();}
+        else if (myState == States.corridor_1)      {state_corridor_1();} // corridor with hairclip
+        else if (myState == States.stairs_1)        {state_stairs_1();}
+        //else if (myState == States.in_closet)       {state_in_closet();} //get in the closet with hairclip?
+        //else if (myState == States.corridor_2)      {state_corridor_2();}
+        //else if (myState == States.stairs_2)        {state_stairs_2();}
+        //else if (myState == States.corridor_3)      {state_corridor_3();}
+        //else if (myState == States.courtyard)       {state_courtyard();}
+
+    }
+
+    void Wrong_Input()
+    {
+        text.text = "thats not right - You were given simple instructions, don't try and reinvent the wheel. \n " +
+                    "Press C to continue";
+        if (Input.GetKeyDown(KeyCode.C)) { myState = States.stairs_1; }
+    }
+
+    void state_stairs_1()
+    {
+
+        text.text = "You can probably get the hair clip in the number pad and cause a short - based on your knowledge of bad 80's science fiction films, this should work and open the door. \n " +
+                    "But that still leaves guards guarding your ship - that would be suicide. You need to find another way through. \n\n" +
+                    "Press R to return to the corridor and try something else.";
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+             myState = States.corridor_1;
         }
+        else
+        {
+            Wrong_Input();
+        }
+       
+
+    }
+
+    void state_corridor_1(){ //Corridor with the hairclip
+
+        text.text = "You have the hairclip. This could be it. Your testicles tingle at the thought of being free once again. \n" +
+                    "There the stairs to your right, and the closet labelled 'STAFF UNIFORMS'\n\n" +
+                    "Press S to go up the stairs, Press C to inspect the closet";
+
+        if      (Input.GetKeyDown(KeyCode.S))       { myState = States.stairs_1; }
+        else if (Input.GetKeyDown(KeyCode.C))       { myState = States.in_closet; }
+     }
+
+     void state_closet_door(){
+
+        text.text = "You walk to the closet down the hall, give it a little shimmy, it doesn't budge. " +
+                    "You need something to pick the simple lock. \n\n"+
+                    "Press R to return to the corridor.";
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            myState = States.corridor_0;
+            print("Log = R Key Pressed"); //logs keypress to console
+        }
+
+     }
+
+    void state_stairs_0() { // stairs doesn't work - needs hairclip
+
+        text.text = "The stairs go up to a locked door, you can see the hanger with your ship in it; the electronic panel requires a finger print to gain entry. \n\n" +
+                    "You try your own, but obviously it doesn't work - who'd be that stupid? You. . . That's who. \n\n" +
+                    "Press R to return to the corridor.";
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            print("Log = R Key pressed"); //logs keypress to console 
+
+            myState = States.corridor_0;
+        }
+    }
+
+    void state_floor()
+    {
+        text.text = "That glint on the floor is actually a hairclip. You pick it up. Maybe you can use this to jack the number pad? \n\n"+
+                    "Press R to return to the corridor"; // this returns to the new corridor_1 state (which hairclip)
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            print("Log = R Key pressed"); //logs keypress to console 
+
+            myState = States.corridor_1;
+        }
+    }
+
 
     void state_cell () { //Describing the cell
         text.text = "You are a prisoner on a maximum security space station. You stink of booze and regret. The Regret tastes like tequila. " +
@@ -55,7 +137,7 @@ public class TextController : MonoBehaviour {
             print("Log = S Key pressed"); //logs keypress to console 
 
             myState = States.sheets_0;
-       }
+        }
         else if (Input.GetKeyDown(KeyCode.L)) { myState = States.lock_0; }
         else if (Input.GetKeyDown(KeyCode.M)) { myState = States.mirror; }
     }
@@ -108,7 +190,7 @@ public class TextController : MonoBehaviour {
     void state_lock_1(){ //lock with mirror - perhaps make random success? 
 
         // Random success could be like (random bool?) -- if (try = 5) {gain access}
-        // OR could have have a random chance or success - like 20% chance of success - but after gain access?
+        // OR could have have a random chance or success - like 20% chance of success - but after 5 attempts gain access no matter what?
 
         text.text = "You put the mirror through the bars of the cell and turn it to see the reflection of the numberpad. " +
                     "You can see the dirt on some of the numbers \n\n" +
@@ -159,14 +241,17 @@ public class TextController : MonoBehaviour {
         else if(Input.GetKeyDown(KeyCode.L))        {myState = States.lock_1;}
     }
 
-    void state_corridor_0(){
+    void state_corridor_0(){ // out of the cell into corridor 3 options
+
         text.text = "You hear a satisfying beep and a hollow thud as the locking mechanism is disengaged. " +
                     "Hot damn you're good at this, just not good enough to stop getting put in a cell in the first place. \n\n" +
-                    "Now just to get past the hundreds of gaurds between you and your janky ass ship. . . And look damn good doing it. \n" +
-                    "Press Enter to quit, Press P to play again";   
+                    "You're faced with a corridor, you see some stairs off to the left and a glint of something on the floor in the dingy light of the corridor. \n" +
+                    "There is also a closet at the end of the room marked 'STAFF UNIFORMS' \n\n" +
+                    "Press S to go up the stairs, Press F to looks at the floor or press C to look at the closet.";   
 
-        if(Input.GetKeyDown(KeyCode.P))             {myState = States.cell;}
-        else if(Input.GetKeyDown(KeyCode.Return))   {myState = States.end;}
+        if(Input.GetKeyDown(KeyCode.S))             {myState = States.stairs_0;}
+        else if(Input.GetKeyDown(KeyCode.F))        {myState = States.floor;}
+        else if(Input.GetKeyDown(KeyCode.C))        {myState = States.closet_door;}
     }
 
     void state_end(){
