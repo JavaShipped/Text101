@@ -40,19 +40,41 @@ public class TextController : MonoBehaviour {
         else if (myState == States.closet_door)     {state_closet_door();}
         else if (myState == States.corridor_1)      {state_corridor_1();} // corridor with hairclip
         else if (myState == States.stairs_1)        {state_stairs_1();}
-        //else if (myState == States.in_closet)       {state_in_closet();} //get in the closet with hairclip?
-        //else if (myState == States.corridor_2)      {state_corridor_2();}
-        //else if (myState == States.stairs_2)        {state_stairs_2();}
+        else if (myState == States.in_closet)       {state_in_closet();} //get in the closet with hairclip?
+        else if (myState == States.corridor_2)      {state_corridor_2();}
+        else if (myState == States.stairs_2)        {state_stairs_2();}
         //else if (myState == States.corridor_3)      {state_corridor_3();}
         //else if (myState == States.courtyard)       {state_courtyard();}
 
     }
 
-    void Wrong_Input()
+    private void state_stairs_2()
     {
-        text.text = "thats not right - You were given simple instructions, don't try and reinvent the wheel. \n " +
-                    "Press C to continue";
-        if (Input.GetKeyDown(KeyCode.C)) { myState = States.stairs_1; }
+        text.text = "The walk up the stairs feels like taking a satisying poo - it just gets better the further it goes. ";
+    }
+
+    private void state_corridor_2()
+    {
+        text.text = "You have the hairclip. And now you've got this ugly ass suit. Everything is coming together - just have to make it to my ship. \n" +
+                    "There doesn't look to be anything of use left to inspect. " +
+                    "Press S to go up the stairs, Press C to inspect the closet";
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            myState = States.stairs_2;
+        }
+    }
+
+    void state_in_closet()
+    {
+        text.text = "You approach the closet and use the hairclip to pick the lock - it was nothing like skyrim. The bastards. /n" +
+                    "You see a guard uniform that happens to be the perfect size. You put it on, you can probably fool the guards around your ship. \n\n" +
+                    "Press R to return to the corridor";
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            myState = States.corridor_2;
+        }
     }
 
     void state_stairs_1()
@@ -66,12 +88,16 @@ public class TextController : MonoBehaviour {
         {
              myState = States.corridor_1;
         }
-        else
-        {
-            Wrong_Input();
-        }
-       
+          
 
+    }
+
+    void Wrong_Input()
+    {
+        text.text = "thats not right - You were given simple instructions, don't try and reinvent the wheel you fucking idiot. \n " +
+                    "Press C to continue";
+
+        if (Input.GetKeyDown(KeyCode.C))             {myState = States.stairs_1;}
     }
 
     void state_corridor_1(){ //Corridor with the hairclip
@@ -82,6 +108,7 @@ public class TextController : MonoBehaviour {
 
         if      (Input.GetKeyDown(KeyCode.S))       { myState = States.stairs_1; }
         else if (Input.GetKeyDown(KeyCode.C))       { myState = States.in_closet; }
+        
      }
 
      void state_closet_door(){
@@ -247,11 +274,12 @@ public class TextController : MonoBehaviour {
                     "Hot damn you're good at this, just not good enough to stop getting put in a cell in the first place. \n\n" +
                     "You're faced with a corridor, you see some stairs off to the left and a glint of something on the floor in the dingy light of the corridor. \n" +
                     "There is also a closet at the end of the room marked 'STAFF UNIFORMS' \n\n" +
-                    "Press S to go up the stairs, Press F to looks at the floor or press C to look at the closet.";   
+                    "Press S to go up the stairs, Press F to looks at the floor or press C to look at the closet.";
 
-        if(Input.GetKeyDown(KeyCode.S))             {myState = States.stairs_0;}
-        else if(Input.GetKeyDown(KeyCode.F))        {myState = States.floor;}
-        else if(Input.GetKeyDown(KeyCode.C))        {myState = States.closet_door;}
+        if (Input.GetKeyDown(KeyCode.S)) { myState = States.stairs_0; }
+        else if (Input.GetKeyDown(KeyCode.F)) { myState = States.floor; }
+        else if (Input.GetKeyDown(KeyCode.C)) { myState = States.closet_door; }
+        
     }
 
     void state_end(){
