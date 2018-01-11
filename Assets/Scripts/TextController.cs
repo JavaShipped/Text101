@@ -44,13 +44,33 @@ public class TextController : MonoBehaviour {
         else if (myState == States.corridor_2)      {state_corridor_2();}
         else if (myState == States.stairs_2)        {state_stairs_2();}
         //else if (myState == States.corridor_3)      {state_corridor_3();}
-        //else if (myState == States.courtyard)       {state_courtyard();}
+        else if (myState == States.courtyard)       {state_courtyard();}
 
+        }
+    void state_courtyard(){
+        text.text = "Thats your ship in front of you. The guards are paying no attention. You climb into your ship and quickly allow yourself " +
+                    "a celebratory first pump. That out of the way you fire up the engines, and while the gaurds are stunned, you blast the " +
+                    " big hanger doors and make a clean get away while guards send dazed shots in your direction. \n\n" +
+                    "The end [or is it?] \n\n" +
+                    "Press C to continue";
+        
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            myState = States.end;
+        }
     }
 
     private void state_stairs_2()
     {
-        text.text = "The walk up the stairs feels like taking a satisying poo - it just gets better the further it goes. ";
+        text.text = "The walk up the stairs feels like taking a satisying poo - it just gets better the further it goes. " +
+                    "This is your freedom. \n\n" +
+                    "You open shimmy the hairclip into the number pad and its casues a short and the door opens. You walk out like no shinanegans has happened \n\n " +
+                    "Press C to continue";
+        
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            myState = States.courtyard;
+        }
     }
 
     private void state_corridor_2()
@@ -284,6 +304,10 @@ public class TextController : MonoBehaviour {
 
     void state_end(){
         text.text = "Credits: Ya boi Joe. \n\n" +
-                    "I don't know how to close the program so have fun with that";
+                    "I don't know how to close the program so have fun with that. \n\n" +
+                    "Press Enter to play again";
+
+        if(Input.GetKeyDown(KeyCode.Return)) { myState = States.cell; }
+        
     }
 }
